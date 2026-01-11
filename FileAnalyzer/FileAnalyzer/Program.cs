@@ -1,9 +1,17 @@
-﻿namespace FileAnalyzer;
+﻿using FileAnalyzer.Services;
+
+namespace FileAnalyzer;
 
 class Program
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
-        Console.WriteLine("Hello, World!");
+        string filePath = @"D:\logs\fileLogs.txt";
+        var logs = await FileReader.ReadFile(filePath);
+        
+        foreach (var log in logs)
+        {
+            Console.WriteLine(log);
+        }
     }
 }
