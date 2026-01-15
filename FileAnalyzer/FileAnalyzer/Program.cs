@@ -6,13 +6,23 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        string filePath = @"D:\logs\fileLogs.txt";
-        var logs = await FileReader.ReadFile(filePath);
-        var parsedLogs = LogParser.Parse(logs);
-        
-        foreach (var log in parsedLogs)
+        var lines = await FileReader.ReadFile(@"D:\logs\fileLogs.txt");
+
+        var parsedLogs = lines
+            .Select(LogParser.Parse)
+            .Where(log => log != null)!
+            .ToList();
+
+        var stats = LogAnalyzer.Analyze(parsedLogs);
+
+        Console.WriteLine($"Total logs: {stats.TotalCount}");
+
+        foreach (var kvp in stats.ByLevel)
         {
-            Console.WriteLine(log.Message);
+            Console.WriteLine($"{kvp.Key}: {kvp.Value}");
         }
+
+        Console.WriteLine($"Most common level: {stats.MostCommonLevel}");
+
     }
 }

@@ -4,16 +4,7 @@ namespace FileAnalyzer.Services;
 
 internal class LogParser
 {
-    public static IEnumerable<LogEntry> Parse(IEnumerable<string> logs)
-    {
-        foreach (var log in logs)
-        {
-            var parsed = ParseLog(log);
-            if (parsed != null) yield return parsed;
-        }
-    }
-
-    static LogEntry? ParseLog(string log)
+    public static LogEntry? Parse(string log)
     {
         var parts = log.Split(' ', 3);
         if (parts.Length < 3)
