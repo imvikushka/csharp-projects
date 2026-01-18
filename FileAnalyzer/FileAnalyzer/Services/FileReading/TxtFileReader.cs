@@ -1,8 +1,8 @@
 namespace FileAnalyzer.Services;
 
-public class FileReader
+public class TxtFileReader : IFileReader
 {
-    internal static async Task<IEnumerable<string>> ReadFile(string filePath)
+    public async Task<IEnumerable<string>> ReadFile(string filePath)
     {
         try
         {
