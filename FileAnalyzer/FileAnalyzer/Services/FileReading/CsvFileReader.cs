@@ -6,16 +6,17 @@ public class CsvFileReader : IFileReader
     {
         try
         {
+            List<string> csvLines = new List<string>();
             string[] lines = await File.ReadAllLinesAsync(filePath);
             string[] fields = null;
             
             foreach (string line in lines)
             {
                 fields = line.Split(',');
-                Console.WriteLine($"Field: {string.Join(" | ", fields)}");
+                csvLines.Add(string.Join(" ", fields));
             }
             
-            return fields;
+            return csvLines;
         }
         catch (Exception ex)
         {

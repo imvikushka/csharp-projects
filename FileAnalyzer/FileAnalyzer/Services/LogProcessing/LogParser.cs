@@ -10,7 +10,7 @@ internal class LogParser
         if (parts.Length < 3)
             return null;
 
-        if (!DateTime.TryParse(parts[0], out var date))
+        if (!DateOnly.TryParse(parts[0], out var date))
             return null;
 
         if (!Enum.TryParse<LogLevel>(parts[1], out var level))

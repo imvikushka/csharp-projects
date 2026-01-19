@@ -4,12 +4,12 @@ internal class LogEntry
 {
     public LogLevel Level { get; set; }
     public string Message { get; set; }
-    public DateTime? Timestamp { get; set; }
+    public DateOnly? Date { get; set; }
     
-    public LogEntry(LogLevel level, string message, DateTime? timestamp = null)
+    public LogEntry(LogLevel level, string message, DateOnly? timestamp = null)
     {
         Level = level;
         Message = message;
-        Timestamp = timestamp;
+        Date = timestamp;
     }
 }

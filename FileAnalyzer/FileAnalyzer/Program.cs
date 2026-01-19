@@ -8,7 +8,7 @@ class Program
     {
         IFileReader fileReader = new CsvFileReader();
         
-        var logs = await fileReader.ReadFile(@"D:\logs\csvLogs.csv");
+        var logs = await fileReader.ReadFile(@"D:\logs\fileLogs.txt");
         
         var parsedLogs = logs
             .Select(LogParser.Parse)
@@ -17,16 +17,16 @@ class Program
 
         foreach (var log in parsedLogs)
         {
-            Console.WriteLine(log);
+            Console.WriteLine($"{log.Level}: {log.Date} {log.Message}");
         }
 
-        /* var stats = LogAnalyzer.Analyze(parsedLogs);
+        var stats = LogAnalyzer.Analyze(parsedLogs);
 
         Console.WriteLine($"Total logs: {stats.TotalCount}");
 
         foreach (var kvp in stats.ByLevel)
             Console.WriteLine($"{kvp.Key}: {kvp.Value}");
 
-        Console.WriteLine($"Most common level: {stats.MostCommonLevel}"); */
+        Console.WriteLine($"Most common level: {stats.MostCommonLevel}");
     }
 }
