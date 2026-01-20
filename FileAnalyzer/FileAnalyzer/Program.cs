@@ -1,4 +1,6 @@
-﻿using FileAnalyzer.Services;
+﻿using System.Text.Json;
+using FileAnalyzer.Models;
+using FileAnalyzer.Services;
 
 namespace FileAnalyzer;
 
@@ -6,21 +8,26 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        IFileReader fileReader = new CsvFileReader();
+        IJsonReader fileReader = new JsonFileReader();
         
-        var logs = await fileReader.ReadFile(@"D:\logs\fileLogs.txt");
-        
-        var parsedLogs = logs
+        var logs = await fileReader.ReadFile(@"D:\logs\jsonLogs.json");
+        var jsonLines = JsonSerializer.Deserialize<List<JsonLogEntry>>(logs);
+
+        /*var parsedLogs = logs
             .Select(LogParser.Parse)
             .Where(log => log != null)!
+            .ToList();*/
+
+        var parsedJson = jsonLines
+            .Select(JsonLogParser.Parse)
             .ToList();
 
-        foreach (var log in parsedLogs)
+        foreach (var log in parsedJson)
         {
             Console.WriteLine($"{log.Level}: {log.Date} {log.Message}");
         }
 
-        var stats = LogAnalyzer.Analyze(parsedLogs);
+        var stats = LogAnalyzer.Analyze(parsedJson);
 
         Console.WriteLine($"Total logs: {stats.TotalCount}");
 

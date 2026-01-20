@@ -18,6 +18,10 @@ internal class LogParser
 
         var message = parts[2];
 
-        return new LogEntry(level, message, date);
+        return new LogEntry(
+            level, 
+            message, 
+            date
+        );
     }
 }
