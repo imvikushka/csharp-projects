@@ -1,15 +1,29 @@
 using FileAnalyzer.Models;
+using Microsoft.Extensions.Logging;
 
 namespace FileAnalyzer.Services;
 
 public class CsvLogParser : ILogParser
 {
+    private readonly ILogger<CsvLogParser> _logger;
+    
+    public CsvLogParser(ILogger<CsvLogParser> logger)
+    {
+        _logger = logger;
+    }
+    
     public IEnumerable<LogEntry?> Parse(string txtContent)
     {
         var lines = txtContent.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.RemoveEmptyEntries);
 
         return lines.Select(line =>
         {
+            if (string.IsNullOrWhiteSpace(line))
+            {
+                _logger.LogWarning("Empty line!");
+                return null;
+            }
+            
             var parts = line.Split(',', 3);
 
             if (parts.Length != 3)
