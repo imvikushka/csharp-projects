@@ -2,5 +2,5 @@ namespace FileAnalyzer.Services;
 
 public interface IFileReader
 {
-    Task<IEnumerable<string>> ReadFile(string filePath);
+    Task<string> ReadFile(string filePath);
 }

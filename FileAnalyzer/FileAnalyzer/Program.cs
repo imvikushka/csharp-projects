@@ -8,32 +8,27 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        IJsonReader fileReader = new JsonFileReader();
+        string txt = @"D:\logs\txtLogs.txt", 
+            csv = @"D:\logs\csvLogs.csv",
+            json = @"D:\logs\jsonLogs.json";
+
+        IFileReader fileReader = new FileReader();
+        ILogParser logParser = new CsvLogParser();
         
-        var logs = await fileReader.ReadFile(@"D:\logs\jsonLogs.json");
-        var jsonLines = JsonSerializer.Deserialize<List<JsonLogEntry>>(logs);
-
-        /*var parsedLogs = logs
-            .Select(LogParser.Parse)
-            .Where(log => log != null)!
-            .ToList();*/
-
-        var parsedJson = jsonLines
-            .Select(JsonLogParser.Parse)
-            .ToList();
-
-        foreach (var log in parsedJson)
+        var logs = await fileReader.ReadFile(csv);
+        var parsedLogs = logParser.Parse(logs);
+        
+        foreach (var log in parsedLogs)
         {
             Console.WriteLine($"{log.Level}: {log.Date} {log.Message}");
         }
-
-        var stats = LogAnalyzer.Analyze(parsedJson);
-
-        Console.WriteLine($"Total logs: {stats.TotalCount}");
+        
+        /*var stats = LogAnalyzer.Analyze(parsedLogs);
 
         foreach (var kvp in stats.ByLevel)
             Console.WriteLine($"{kvp.Key}: {kvp.Value}");
 
-        Console.WriteLine($"Most common level: {stats.MostCommonLevel}");
+        Console.WriteLine($"Total logs: {stats.TotalCount}\n" +
+                          $"Most common level: {stats.MostCommonLevel}");*/
     }
 }

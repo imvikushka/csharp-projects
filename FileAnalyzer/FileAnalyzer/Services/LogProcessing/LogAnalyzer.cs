@@ -2,7 +2,7 @@ using FileAnalyzer.Models;
 
 namespace FileAnalyzer.Services;
 
-internal static class LogAnalyzer
+/*internal static class LogAnalyzer
 {
     public static LogStatistics Analyze(IEnumerable<LogEntry> logs)
     {
@@ -21,4 +21,4 @@ internal static class LogAnalyzer
 
         return new LogStatistics(total, byLevel);
     }
-}
+}*/
