@@ -1,7 +1,4 @@
-﻿using System.Text.Json;
-using FileAnalyzer.Models;
-using FileAnalyzer.Services;
-using Microsoft.Extensions.DependencyInjection;
+﻿using FileAnalyzer.Services;
 using Microsoft.Extensions.Logging;
 
 namespace FileAnalyzer;
@@ -10,24 +7,19 @@ class Program
 {
     static async Task Main(string[] args)
     {
-        var loggerFactory = LoggerFactory.Create(builder =>
-        {
-            builder.AddConsole();
-        });
-
-        var fileReader = new FileReader();
-        
-        var txtParserLogger = loggerFactory.CreateLogger<TxtLogParser>();
-        var parser = new TxtLogParser(txtParserLogger);
-        
         string txt = @"D:\logs\txtLogs.txt", 
             csv = @"D:\logs\csvLogs.csv",
             json = @"D:\logs\jsonLogs.json";
         
-        var logs = await fileReader.ReadFile(csv);
-        var parsedLogs = parser.Parse(logs);
+        var loggerFactory = LoggerFactory.Create(b => b.AddConsole());
         
-        foreach (var log in parsedLogs)
+        var processor = new LogProcessor(
+            new FileReader(),
+            new LogParserFactory(loggerFactory));
+
+        var logs = await processor.Process(@"D:\logs\csvLogs.csv");
+        
+        foreach (var log in logs)
         {
             Console.WriteLine($"{log.Level}: {log.Date} {log.Message}");
         }
