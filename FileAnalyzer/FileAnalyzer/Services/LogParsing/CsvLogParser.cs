@@ -1,5 +1,6 @@
 using FileAnalyzer.Models;
 using Microsoft.Extensions.Logging;
+using LogLevel = FileAnalyzer.Models.LogLevel;
 
 namespace FileAnalyzer.Services;
 
@@ -29,10 +30,16 @@ public class CsvLogParser : ILogParser
             if (parts.Length != 3)
                 return null;
             
+            if (!DateOnly.TryParse(parts[0], out var date))
+                return null;
+            
+            if (!Enum.TryParse<LogLevel>(parts[1], true, out var level))
+                return null;
+            
             return new LogEntry
             {
-                Date = parts[0],
-                Level = parts[1],
+                Date = date,
+                Level = level,
                 Message = parts[2]
             };
         }).Where(line => line != null);
