@@ -1,0 +1,6 @@
+2025-12-21 INFO Application started
+WARNING Disk space low
+2025-12-24 ERROR Failed to connect to database
+2025-12-25 INFO User logged in
+2025-12-26 ERROR
+2025-12-26 FATAL The application crashed with an error

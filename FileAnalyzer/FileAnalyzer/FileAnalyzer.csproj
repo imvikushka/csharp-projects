@@ -12,20 +12,4 @@
       <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="10.0.2" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Samples\" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Update="Samples\csvLogs.csv">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Samples\jsonLogs.json">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-      <None Update="Samples\txtLogs.txt">
-        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
 </Project>

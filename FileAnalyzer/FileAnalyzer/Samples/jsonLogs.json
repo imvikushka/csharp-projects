@@ -1,0 +1,32 @@
+[
+  {
+    "level": "INFO",
+    "message": "Application started",
+    "date": "2025-12-21"
+  },
+  {
+    "level": "WARNING",
+    "message": "Disk space low",
+    "date": "2025-12-24"
+  },
+  {
+    "level": "Error",
+    "message": "Failed to connect to database",
+    "date": "2025-12-24"
+  },
+  {
+    "level": "INFO",
+    "message": "User logged in",
+    "date": "2025-12-25"
+  },
+  {
+    "level": "ERROR",
+    "message": "Timeout occurred",
+    "date": "2025-12-26"
+  },
+  {
+    "level": "FATAL",
+    "message": "The application crashed with an error",
+    "date": "2025-12-26"
+  }
+]

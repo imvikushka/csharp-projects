@@ -2,10 +2,11 @@ using FileAnalyzer.Models;
 
 namespace FileAnalyzer.Services;
 
-public class LogStatistics
+internal class LogStatistics
 {
     public int TotalCount { get; }
-    public Dictionary<LogLevel, int> ByLevel { get; }
+    public IReadOnlyDictionary<LogLevel, int> ByLevel { get; }
+
     public LogLevel? MostCommonLevel { get; }
 
     public LogStatistics(int totalCount, Dictionary<LogLevel, int> byLevel)
