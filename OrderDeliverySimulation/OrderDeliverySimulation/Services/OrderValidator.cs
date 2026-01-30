@@ -3,7 +3,7 @@ using OrderDeliverySimulation.Models;
 
 namespace OrderDeliverySimulation.Services;
 
-public class OrderValidator : IOrderValidator
+public class OrderValidator
 {
     public Order ValidateOrder(Order order)
     {

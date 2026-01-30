@@ -6,16 +6,22 @@ namespace OrderDeliverySimulation.Services;
 public class OrderProcessor
 {
     public readonly Order _order;
-    public readonly IOrderValidator _validator;
+    public readonly OrderValidator _validator;
+    public readonly IPaymentService _paymentService;
     
-    public OrderProcessor(Order order, IOrderValidator orderValidator)
+    public OrderProcessor(
+        Order order, 
+        OrderValidator orderValidator, 
+        IPaymentService paymentService)
     {
         _order = order;
         _validator = orderValidator;
+        _paymentService = paymentService;
     }
-    
+
     public Order Process()
     {
-        return _validator.ValidateOrder(_order);
+        var validOrder = _validator.ValidateOrder(_order);
+        return _paymentService.PayOrder(validOrder);
     }
 }

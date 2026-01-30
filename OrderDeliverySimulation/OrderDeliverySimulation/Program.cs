@@ -10,7 +10,7 @@ class Program
         List<OrderItem> items = new()
         {
             new OrderItem(1, "Laptop", 59600.00m, 1),
-            new OrderItem(2, "", 25300.50m, 1),
+            new OrderItem(2, "Phone", 25300.50m, 1),
             new OrderItem(3, "Headphones", 6500.40m, 1)
         };
 
@@ -24,7 +24,8 @@ class Program
                 ListOfItems = items,
                 TotalPrice = items.Sum(item => item.Price * item.Quantity)
             },
-            new OrderValidator()
+            new OrderValidator(),
+            new PaymentService(new OrderStatusManager())
         );
         
         processor.Process();
