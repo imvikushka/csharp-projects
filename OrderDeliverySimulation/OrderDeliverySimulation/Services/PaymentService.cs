@@ -25,7 +25,7 @@ public class PaymentService : IPaymentService
         else
         {
             _orderStatusManager.ChangeStatus(order, OrderStatus.Cancelled);
-            Console.WriteLine($"Not enough money to pay for the order! Status: {order.OrderStatus}");
+            Console.WriteLine($"Not enough money to pay for the order {order.OrderId}! Status: {order.OrderStatus}");
         }
         
         return order;

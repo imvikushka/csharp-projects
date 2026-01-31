@@ -5,7 +5,7 @@ namespace OrderDeliverySimulation;
 
 class Program
 {
-    static void Main(string[] args)
+    static async Task Main(string[] args)
     {
         List<OrderItem> items = new()
         {
@@ -14,6 +14,8 @@ class Program
             new OrderItem(3, "Headphones", 6500.40m, 1)
         };
 
+        var statusManager = new OrderStatusManager();
+        
         var processor = new OrderProcessor(
             new Order()
             {
@@ -25,9 +27,10 @@ class Program
                 TotalPrice = items.Sum(item => item.Price * item.Quantity)
             },
             new OrderValidator(),
-            new PaymentService(new OrderStatusManager())
+            new PaymentService(statusManager),
+            new DeliveryService(statusManager)
         );
         
-        processor.Process();
+        var result = await processor.Process();
     }
 }
