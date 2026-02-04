@@ -5,5 +5,5 @@ namespace OrderDeliverySimulation.Interfaces;
 
 public interface IPaymentService
 {
-    Order PayOrder(Order order);
+    bool PayOrder(Order order);
 }

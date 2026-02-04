@@ -27,8 +27,8 @@ class Program
                 TotalPrice = items.Sum(item => item.Price * item.Quantity)
             },
             new OrderValidator(),
-            new PaymentService(statusManager),
-            new DeliveryService(statusManager)
+            new DeliveryService(statusManager),
+            new OrderWorkflow(statusManager, new PaymentService(statusManager))
         );
         
         var result = await processor.Process();

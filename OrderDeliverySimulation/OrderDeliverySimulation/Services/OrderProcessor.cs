@@ -7,26 +7,30 @@ public class OrderProcessor
 {
     public readonly Order _order;
     public readonly OrderValidator _validator;
-    public readonly IPaymentService _paymentService;
     public readonly IDeliveryService _deliveryService;
+    public readonly OrderWorkflow _workflow;
     
     public OrderProcessor(
         Order order, 
         OrderValidator orderValidator, 
-        IPaymentService paymentService,
-        IDeliveryService deliveryService)
+        IDeliveryService deliveryService,
+        OrderWorkflow workflow)
     {
         _order = order;
         _validator = orderValidator;
-        _paymentService = paymentService;
         _deliveryService = deliveryService;
+        _workflow = workflow;
     }
 
     public async Task<Order> Process()
     {
-        var validOrder = _validator.ValidateOrder(_order); 
-        var paidOrder = _paymentService.PayOrder(validOrder);
-        var deliveredOrder = await _deliveryService.Deliver(paidOrder);
+        var validOrder = _validator.ValidateOrder(_order);
+        var paidOrder = _workflow.PaymentMenu(validOrder);
+        
+        if (!paidOrder)
+            return validOrder;
+        
+        var deliveredOrder = await _deliveryService.Deliver(validOrder);
         
         return deliveredOrder;
     }

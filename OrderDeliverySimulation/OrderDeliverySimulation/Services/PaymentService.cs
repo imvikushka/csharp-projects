@@ -12,7 +12,7 @@ public class PaymentService : IPaymentService
         _orderStatusManager = orderStatusManager;
     }
     
-    public Order PayOrder(Order order)
+    public bool PayOrder(Order order)
     {
         Console.WriteLine($"Total order amount: {order.TotalPrice}\nPlease pay for your order.\n");
         string? enteredAmount = Console.ReadLine()?.Trim();
@@ -21,22 +21,22 @@ public class PaymentService : IPaymentService
         {
             _orderStatusManager.ChangeStatus(order, OrderStatus.Paid);
             Console.WriteLine($"{order.OrderId} is successfully paid! Status: {order.OrderStatus}");
-        }
-        else
-        {
-            _orderStatusManager.ChangeStatus(order, OrderStatus.Cancelled);
-            Console.WriteLine($"Not enough money to pay for the order {order.OrderId}! Status: {order.OrderStatus}");
+            
+            return true;
         }
         
-        return order;
+        return false;
     }
 
     private bool IsPaid(string? enteredAmount, Order order)
     {
         decimal.TryParse(enteredAmount, out var amount);
-        
+
         if (amount < order.TotalPrice)
+        {
+            Console.WriteLine("Not enough money!");
             return false;
+        }
         
         return true;
     }
