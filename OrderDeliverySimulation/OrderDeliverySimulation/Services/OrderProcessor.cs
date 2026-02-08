@@ -5,33 +5,33 @@ namespace OrderDeliverySimulation.Services;
 
 public class OrderProcessor
 {
-    public readonly Order _order;
-    public readonly OrderValidator _validator;
+    public readonly ItemValidator _itemValidator;
     public readonly IDeliveryService _deliveryService;
     public readonly OrderWorkflow _workflow;
     
     public OrderProcessor(
-        Order order, 
-        OrderValidator orderValidator, 
+        ItemValidator itemValidator, 
         IDeliveryService deliveryService,
-        OrderWorkflow workflow)
+        OrderWorkflow workflow
+        )
     {
-        _order = order;
-        _validator = orderValidator;
+        _itemValidator = itemValidator;
         _deliveryService = deliveryService;
         _workflow = workflow;
     }
 
-    public async Task<Order> Process()
+    public async Task<OrderProcessingResult> Process(Order order)
     {
-        var validOrder = _validator.ValidateOrder(_order);
-        var paidOrder = _workflow.PaymentMenu(validOrder);
-        
-        if (!paidOrder)
-            return validOrder;
-        
-        var deliveredOrder = await _deliveryService.Deliver(validOrder);
-        
-        return deliveredOrder;
+        if (!_itemValidator.ValidateOrderItems(order))
+            return new OrderProcessingResult(order, false, "Order contains invalid items");
+
+        var isPaid = _workflow.PaymentMenu(order);
+
+        if (!isPaid)
+            return new OrderProcessingResult(order, false, "Order was not paid");
+
+        await _deliveryService.Deliver(order);
+
+        return new OrderProcessingResult(order, true, "Order delivered");
     }
 }

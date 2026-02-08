@@ -7,5 +7,5 @@ public class Order
     public List<OrderItem> ListOfItems { get; set; }
     public decimal TotalPrice { get; set; }
     public OrderStatus OrderStatus { get; set; }
-    public DateOnly CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; }
 }
